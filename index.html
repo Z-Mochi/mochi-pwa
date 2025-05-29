@@ -13,7 +13,7 @@
 <body>
     <h1>Hello, this is a basic PWA!</h1>
     <p>You're offline-ready 🛰️</p>
-    <button id="install-button" style="display: none;">Install App</button>
+    <button id="install-button">Install App</button>
     <script>
         // Register Service Worker
         if ('serviceWorker' in navigator) {
@@ -25,6 +25,7 @@
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault(); // Ngăn Chrome hiển thị tự động
+            console.log('xx mochi alo');
             deferredPrompt = e; // Lưu lại sự kiện
             document.getElementById('install-button').style.display = 'block'; // Hiện nút
         });
