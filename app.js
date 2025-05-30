@@ -44,3 +44,5 @@ document.getElementById('install-button').addEventListener('click', async () => 
         document.getElementById('install-button').style.display = 'none';
     }
 });
+
+console.log("xx mochi app.js loaded check cache");
