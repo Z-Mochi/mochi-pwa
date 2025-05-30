@@ -18,6 +18,16 @@ self.addEventListener('install', (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     (async () => {
+      // Xoá cache cũ
+      const cacheNames = await caches.keys();
+      await Promise.all(
+        cacheNames.map((name) => {
+          if (name !== CACHE_NAME) {
+            return caches.delete(name);
+          }
+        })
+      );
+
       if ("navigationPreload" in self.registration) {
         await self.registration.navigationPreload.enable();
       }
