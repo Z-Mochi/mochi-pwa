@@ -3,7 +3,7 @@ const CACHE_NAME = 'my-pwa-cache-v10';
 const FILES_TO_CACHE = [
   '/index.html',
   '/app.js',
-  '/icon.png'
+  '/style.css'
 ];
 
 // Install event: Cache essential files
