@@ -2,6 +2,7 @@ const CACHE_NAME = 'my-pwa-cache-v1';
 const FILES_TO_CACHE = [
   '/index.html',
   '/app.js',
+  '/style.css',
   '/manifest.json',
 ];
 
