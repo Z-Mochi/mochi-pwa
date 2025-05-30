@@ -1,9 +1,18 @@
 // Register Service Worker
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js')
-        .then(reg =>  console.log('Service Worker registered successfully:', reg))
+        .then(reg => console.log('Service Worker registered successfully:', reg))
         .catch(err => console.error('Service Worker registration failed:', err));
-    checkForUpdatesPeriodically(); // Start checking for updates
+
+    navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data.type === 'NEW_VERSION_AVAILABLE') {
+            // Thông báo hoặc tự động reload
+            if (confirm("Có bản cập nhật mới. Tải lại trang?")) {
+                window.location.reload();
+            }
+        }
+    });
+    // checkForUpdatesPeriodically(); // Start checking for updates
 }
 
 let previousUrl = '';
