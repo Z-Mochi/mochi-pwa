@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-pwa-cache-v10.1';
+const CACHE_NAME = 'my-pwa-cache-v10.2';
 //Files need to be cached
 const FILES_TO_CACHE = [
   '/index.html',
