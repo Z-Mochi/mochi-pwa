@@ -43,14 +43,17 @@ self.addEventListener('fetch', (event) => {
    
       const cachedResponse = await caches.match(event.request);
       if (cachedResponse) {
+        console.log('Serving from cache:', event.request.url);
         return cachedResponse;
       }
     // Attempt to get the preload response first
     const preloadResponse = await event.preloadResponse;
     if (preloadResponse) {
+      console.log('Serving from preload:', event.request.url);
       return preloadResponse;
     }
 
+      console.log('No cache or preload response, fetching from network:', event.request.url);
       // Fallback to network fetch if no preload or cache is available
       return fetch(event.request);
     })()
