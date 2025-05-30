@@ -1,6 +1,5 @@
 const CACHE_NAME = 'my-pwa-cache-v1';
-const URLS_TO_CACHE = [
-  '/',
+const FILES_TO_CACHE = [
   '/index.html',
   '/styles.css',
   '/app.js',
