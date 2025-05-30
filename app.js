@@ -3,15 +3,6 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js')
         .then(reg => console.log('Service Worker registered successfully:', reg))
         .catch(err => console.error('Service Worker registration failed:', err));
-
-    navigator.serviceWorker.addEventListener('message', event => {
-        if (event.data.type === 'NEW_VERSION_AVAILABLE') {
-            // Thông báo hoặc tự động reload
-            if (confirm("Có bản cập nhật mới. Tải lại trang?")) {
-                window.location.reload();
-            }
-        }
-    });
 }
 
 // Handle the beforeinstallprompt event
@@ -32,3 +23,5 @@ document.getElementById('install-button').addEventListener('click', async () => 
         document.getElementById('install-button').style.display = 'none';
     }
 });
+
+console.log('test update app.js without update version');
