@@ -1,10 +1,9 @@
-const CACHE_NAME = 'mochi-pwa-cache-v2';
+const CACHE_NAME = 'my-pwa-cache-v10';
 //Files need to be cached
 const FILES_TO_CACHE = [
-  '/',
   '/index.html',
   '/app.js',
-  '/style.css',
+  '/icon.png'
 ];
 
 // Install event: Cache essential files
@@ -41,35 +40,19 @@ self.addEventListener("activate", (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     (async () => {
-
+   
       const cachedResponse = await caches.match(event.request);
       if (cachedResponse) {
         return cachedResponse;
       }
-      // Attempt to get the preload response first
-      const preloadResponse = await event.preloadResponse;
-      if (preloadResponse) {
-        return preloadResponse;
-      }
+    // Attempt to get the preload response first
+    const preloadResponse = await event.preloadResponse;
+    if (preloadResponse) {
+      return preloadResponse;
+    }
 
-      const fetchPromise = fetch(event.request).then(networkResponse => {
-        // Cập nhật cache nếu có dữ liệu mới
-        if (
-          networkResponse &&
-          networkResponse.status === 200 &&
-          networkResponse.type === 'basic'
-        ) {
-          // Gửi thông báo đến client nếu muốn
-          self.clients.matchAll().then(clients => {
-            clients.forEach(client => {
-              client.postMessage({ type: 'NEW_VERSION_AVAILABLE' });
-            });
-          });
-        }
-        return networkResponse;
-      }).catch(() => cachedResponse);
       // Fallback to network fetch if no preload or cache is available
-      return fetchPromise;
+      return fetch(event.request);
     })()
   );
 });
