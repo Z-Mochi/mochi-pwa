@@ -5,20 +5,21 @@ const FILES_TO_CACHE = [
   '/style.css',
 ];
 
-// Install event: Cache essential files
+// Cài đặt (Install): Cache các file tĩnh cần thiết
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(FILES_TO_CACHE);
     })
   );
+  self.skipWaiting(); // kích hoạt ngay lập tức
 });
 
-// Activate event: preload everything
-self.addEventListener("activate", (event) => {
+// Kích hoạt (Activate): Xoá cache cũ và bật preload
+self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
-      // Xoá cache cũ
+      // Xoá tất cả cache cũ (trừ CACHE_NAME hiện tại)
       const cacheNames = await caches.keys();
       await Promise.all(
         cacheNames.map((name) => {
@@ -28,15 +29,14 @@ self.addEventListener("activate", (event) => {
         })
       );
 
-      if ("navigationPreload" in self.registration) {
+      // Bật navigation preload (nếu hỗ trợ)
+      if ('navigationPreload' in self.registration) {
         await self.registration.navigationPreload.enable();
       }
     })()
   );
-  // Tell the active service worker to take control of the page immediately.
-  self.clients.claim();
+  self.clients.claim(); // chiếm quyền điều khiển client ngay
 });
-
 // Fetch event: Serve from cache
 // self.addEventListener('fetch', (event) => {
 //     event.respondWith(
@@ -61,7 +61,25 @@ self.addEventListener('fetch', (event) => {
       }
 
       // Fallback to network fetch if no preload or cache is available
-      return fetch(event.request);
+      try {
+        const networkResponse = await fetch(event.request);
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(event.request, networkResponse.clone());
+
+        // self.clients.matchAll().then(clients => {
+        //   clients.forEach(client => {
+        //     client.postMessage({ type: 'NEW_VERSION_AVAILABLE' });
+        //   });
+        // });
+
+        return networkResponse;
+      } catch (error) {
+        // Nếu offline và không có cache
+        return new Response('Offline và không có cache', {
+          status: 503,
+          statusText: 'Service Unavailable',
+        });
+      }
     })()
   );
 });
