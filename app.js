@@ -12,6 +12,7 @@ let previousUrl = '';
 const DATA_URL = "https://5oygz.wiremockapi.cloud/json/1"
 // Function to periodically check for updates
 function checkForUpdatesPeriodically() {
+    console.log('xx mochi checkForUpdatesPeriodically');
     setInterval(() => {
         fetch(DATA_URL)
             .then(response => response.json())
@@ -20,6 +21,7 @@ function checkForUpdatesPeriodically() {
                 console.log(url)
                 document.getElementById('content').innerHTML = "Load content from " + url;
                 previousUrl = url; // Update the previous URL
+                console.log('xx mochi Content updated from:', url);
             })
             .catch(error => document.getElementById('content').innerHTML = 'Network error !');
     }, 2000);
