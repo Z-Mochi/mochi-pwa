@@ -12,27 +12,6 @@ if ('serviceWorker' in navigator) {
             }
         }
     });
-    // checkForUpdatesPeriodically(); // Start checking for updates
-}
-
-let previousUrl = '';
-
-const DATA_URL = "https://5oygz.wiremockapi.cloud/json/1"
-// Function to periodically check for updates
-function checkForUpdatesPeriodically() {
-    console.log('xx mochi checkForUpdatesPeriodically');
-    setInterval(() => {
-        fetch(DATA_URL)
-            .then(response => response.json())
-            .then(data => {
-                let url = data.url;
-                console.log(url)
-                document.getElementById('content').innerHTML = "Load content from " + url;
-                previousUrl = url; // Update the previous URL
-                console.log('xx mochi Content updated from:', url);
-            })
-            .catch(error => document.getElementById('content').innerHTML = 'Network error !');
-    }, 2000);
 }
 
 // Handle the beforeinstallprompt event
@@ -53,5 +32,3 @@ document.getElementById('install-button').addEventListener('click', async () => 
         document.getElementById('install-button').style.display = 'none';
     }
 });
-
-console.log("xx mochi app.js loaded check cache");
