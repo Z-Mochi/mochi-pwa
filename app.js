@@ -1,12 +1,11 @@
 // Register Service Worker
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js')
-        .then(reg => () => {
-            console.log('Service Worker registered successfully:', reg);
-            checkForUpdatesPeriodically(); // Start checking for updates
-        })
+        .then(reg =>  console.log('Service Worker registered successfully:', reg))
         .catch(err => console.error('Service Worker registration failed:', err));
+    checkForUpdatesPeriodically(); // Start checking for updates
 }
+
 let previousUrl = '';
 
 const DATA_URL = "https://5oygz.wiremockapi.cloud/json/1"
